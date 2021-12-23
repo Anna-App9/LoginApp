@@ -47,16 +47,14 @@ class Register extends React.Component {
         alert("Name should not exceed 30 characters");
         isValid = false;
       }
-      if (mailFormat.match(email)){
-        isValid=true;
-      }else{
+      if (!mailFormat.test(email)){
         alert("Enter a valid Mail-ID")
-      }
-      if(phoneFormat.match(phone)){
-       isValid = true;
+        isValid=false;
       }else{
+      }
+      if(!phoneFormat.test(phone)){
         alert("Please enter a valid phone number")
-        isValid = false;
+       isValid = false;
       }
       
 
