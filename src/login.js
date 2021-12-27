@@ -1,7 +1,8 @@
 import React from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Redirect } from 'react-router-dom';
-import Welcome from './Welcome';
+import Welcome from './welcome';
+import { Link } from 'react-router-dom';
+
 class Login extends React.Component {
   constructor(props){
     super(props);
@@ -14,9 +15,6 @@ class Login extends React.Component {
     }
   }
 
-  formValidation =()=>{
-    
-  }
 
   onChangeName = (e) =>{
     this.setState({name:e.target.value})
@@ -38,12 +36,12 @@ class Login extends React.Component {
     let oldArr = JSON.parse(oldData);
     oldArr.map(arr => 
       {
-        if(this.state.name.length > 0 && this.state.password.length > 0){
+        if(this.state.name.length > 4 && this.state.password.length > 7){
           if (arr.name == this.state.name && (arr.password == this.state.password)) {
             let user = this.state.name;
             // console.log(user);
             // console.log(arr.password);
-           history.push("/welcome");
+           this.props.history.push('/welcome');
           }else{
             this.setState({error:'Please check your email or password'})
             
@@ -61,7 +59,21 @@ class Login extends React.Component {
   render() {
     
     return (
+
+      <div>
+             <h2>Welcome to Login App</h2>
+             <nav className="navbar navbar-expand-lg navbar-light bg-light"> 
+            <ul className="navbar-nav mr-auto">
+
+              <li>
+              New Here?
+              <Link to={'/register'} className="nav-link">Register</Link></li>
+            </ul>
+            </nav>
+             <hr />
+
       <form onSubmit={this.onSubmit}>
+
         <p className="error">
           {this.state.error}
         </p>
@@ -75,6 +87,7 @@ class Login extends React.Component {
         </div>
         <button type="submit" className="btn btn-primary btn-block" onClick={this.props.onLogin}>Login</button>
       </form>
+      </div>
     )
   }
 }

@@ -3,16 +3,15 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Login from './login';
 import Register from './register';
-import Welcome from './Welcome';
-
-
+import Welcome from './welcome';
+import { Navigate } from 'react-router-dom';
 export default function App () { 
 
     return (
       <Router>
           <div>
-            <h2>Welcome to Login App</h2>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            {/* <h2>Welcome to Login App</h2>
+             <nav className="navbar navbar-expand-lg navbar-light bg-light"> 
             <ul className="navbar-nav mr-auto">
               <li>
               Do you have an account? 
@@ -23,12 +22,17 @@ export default function App () {
               <Link to={'/register'} className="nav-link">Register</Link></li>
             </ul>
             </nav>
-            <hr />
+             <hr /> */} 
+            
+            
             <Routes>
                 <Route exact path='/login' element={<Login/>}/>
                 <Route path='/register' element={<Register/>} />
                 <Route path='/welcome' element={<Welcome/>}/>
+                <Route path="/" element={<Navigate replace to="/login" />} />
+
             </Routes>
+
       
           </div>
         </Router>
