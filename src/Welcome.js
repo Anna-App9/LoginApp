@@ -1,13 +1,19 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
-class Welcome extends React.Component {
-  render() {
+const Welcome =()=> {
+  const location = useLocation();
+
     return (
       <div className="container">
-        <h1>Hello, {this.props.location.user}</h1>
-      </div>
+
+        <h1>Hello, {location&& location.state}</h1>
+        {
+        console.log(location)
+  }
+              </div>
     )
   }
-}
+
 
 export default Welcome;

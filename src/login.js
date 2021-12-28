@@ -1,53 +1,53 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './index.css'
 
-class Login extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      name:'',
-      email:'',
-      phone:'',
-      password:'',
-      error:'',
-      hidden: true,
+const Login= ()=>{
+const navigate = useNavigate();
+ const [email, setEmail] = useState("");
+ const [name, setName] = useState("");
+ const [password, setPassword] = useState("");
+ const [phone, setPhone] = useState("");
+ const [cpassword, setCpassword] = useState("");
+ const [hidden, setHidden] = useState(true);
+ const [error, setError] = useState("")
+
+
+  const toggleShow =()=> {
+    setHidden(!hidden);
+  }
+
+
+  const onChangeName = (e) =>{
+    setName(e.target.value);
+  }
+
+ const onChangeEmail = (e) =>{
+  setEmail(e.target.value);
+  }
+
+  const onChangePhone = (e) =>{
+    setPhone(e.target.value);
+  }
+  const onChangePassword = (e) =>{
+    setPassword(e.target.value);
     }
-    this.toggleShow = this.toggleShow.bind(this);
-  }
-  toggleShow() {
-    this.setState({ hidden: !this.state.hidden });
-  }
 
-
-  onChangeName = (e) =>{
-    this.setState({name:e.target.value})
-  }
-
-  onChangeEmail = (e) =>{
-    this.setState({email:e.target.value})
-  }
-
-  onChangePhone = (e) =>{
-    this.setState({phone:e.target.value})
-  }
-
-  onSubmit = (e) =>{
-
-    let { history } = this.props;
+  const onSubmit = (e) =>{
     e.preventDefault()
     let oldData = localStorage.getItem('formData');
     let oldArr = JSON.parse(oldData);
     oldArr.map(arr => 
       {
-        if(this.state.name.length > 4 && this.state.password.length > 7){
-          if (arr.name == this.state.name && (arr.password == this.state.password)) {
-            let user = this.state.name;
+        if(name.length > 4 && password.length > 7){
+          if (arr.name == name && (arr.password == password)) {
+            
             // console.log(user);
             // console.log(arr.password);
-           this.props.history.push({pathname:'/welcome', user: this.state.name});
+            // console.log(this.props.history);
+            navigate('/welcome', { state: name })
           }else{
-            this.setState({error:'Please check your email or password'})
+            setError('Please check your email or password');
             
           }
        }
@@ -55,12 +55,7 @@ class Login extends React.Component {
       )
   }
 
-  onChangePassword = (e) =>{
-    this.setState({password:e.target.value})
-  }
 
-
-  render() {
     
     return (
 
@@ -76,26 +71,25 @@ class Login extends React.Component {
             </nav>
              <hr />
 
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={onSubmit}>
 
         <p className="error">
-          {this.state.error}
+          {error}
         </p>
         <div className="form-group">
           <label>Name</label>
-          <input type="text" className="form-control" value={this.state.name} onChange={this.onChangeName} required />
+          <input type="text" className="form-control" value={name} onChange={onChangeName} required />
         </div>
         <div className="form-group">
           <label>Password</label>
-          <input type="password" className="form-control" value={this.state.password} onChange={this.onChangePassword} required />
-          <button type="button" className="btn btn-secondary" onClick={this.toggleShow}>Show / Hide</button>
+          <input type={hidden ? 'password' : 'text'} className="form-control" value={password} onChange={onChangePassword} required />
+          <button type="button" className="btn btn-secondary" onClick={toggleShow}>Show / Hide</button>
 
         </div>
-        <button type="submit" className="btn btn-primary btn-block" onClick={this.props.onLogin}>Login</button>
+        <button type="submit" className="btn btn-primary btn-block">Login</button>
       </form>
       </div>
     )
   }
-}
 
 export default Login;

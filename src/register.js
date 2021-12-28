@@ -21,8 +21,10 @@ class Register extends React.Component {
       errors : {},
       errMsg : {},
       hidden: true,
+      cpHidden :true,
     }
     this.toggleShow = this.toggleShow.bind(this);
+    this.cptoggleShow = this.cptoggleShow.bind(this);
   }  
   validateEmail = (email) => {
     return String(email)
@@ -33,7 +35,11 @@ class Register extends React.Component {
   };
   toggleShow() {
     this.setState({ hidden: !this.state.hidden });
-  }
+}
+cptoggleShow() {
+  this.setState({ cpHidden: !this.state.cpHidden });
+
+}
 
   formValidation = () => {
     const {name, email, phone, password, cpassword} = this.state;
@@ -170,12 +176,12 @@ class Register extends React.Component {
         </div>
         <div className="form-group">
           <label>Password</label>
-          <input type="password" className="form-control" value={this.state.password} onChange={this.onChangePassword} required />
+          <input type={this.state.hidden ? 'password' : 'text'} className="form-control" value={this.state.password} onChange={this.onChangePassword} required />
           <button type="button" className="btn btn-secondary" onClick={this.toggleShow}>Show / Hide</button>        
         </div>
         <div className="form-group">
           <label>Confirm Password</label>
-          <input type={this.state.hidden ? 'password' : 'text'} className="form-control" value={this.state.cpassword} onChange={this.onChangeCpassword} required />
+          <input type={this.state.cpHidden ? 'password' : 'text'} className="form-control" value={this.state.cpassword} onChange={this.onChangeCpassword} required />
           {/* <i className="fa fa-eye password-icon"></i> */}
           {/* <i className="bi bi-eye-slash" 
                     id="togglePassword"></i> */}
@@ -183,7 +189,7 @@ class Register extends React.Component {
                      <i className="bi bi-eye"></i>
 
 
-        <button type="button" className="btn btn-secondary" onClick={this.toggleShow}>Show / Hide</button>
+        <button type="button" className="btn btn-secondary" onClick={this.cptoggleShow}>Show / Hide</button>
 
         </div>
         <button type="submit" className="btn btn-primary btn-block" onClick={this.props.onRegister}>Register</button>
