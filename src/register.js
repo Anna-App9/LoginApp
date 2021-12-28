@@ -1,11 +1,15 @@
 import React from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
+import './index.css';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 class Register extends React.Component {
 
   oldData = [];
+  oldArr =[];
   constructor(props){
     super(props);
     this.state = {
@@ -16,7 +20,9 @@ class Register extends React.Component {
       cpassword:'',
       errors : {},
       errMsg : {},
+      hidden: true,
     }
+    this.toggleShow = this.toggleShow.bind(this);
   }  
   validateEmail = (email) => {
     return String(email)
@@ -25,57 +31,62 @@ class Register extends React.Component {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
+  toggleShow() {
+    this.setState({ hidden: !this.state.hidden });
+  }
 
   formValidation = () => {
     const {name, email, phone, password, cpassword} = this.state;
 
-   let mailFormat = /^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$/;
-   let phoneFormat = /^(\+\d{1,3}[- ]?)?\d{10}$/;
-   console.log(!mailFormat.test(email));
+  //  let phoneFormat = /^(\+\d{1,3}[- ]?)?\d{10}$/;
+  //  let phoneFormat = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
+
+  //  console.log(!mailFormat.test(email));
 
       let isValid= true;
+
+      // {
+      //   toast("Email already exists!")
+      //   isValid = false;
+      //   return isValid;
+      // }
       if (password !== cpassword) {
-        alert("Passwords don't match, Please try again");
+        toast("Passwords don't match, Please try again");
           isValid = false;
           return isValid;
       } 
       if (password.length < 8){
-        alert("Password should countain min 8 characters");
+        toast("Password should countain min 8 characters");
         isValid = false;
         return isValid;
 
       }
       if(name.length<4)
       {
-        alert("Name should contain minimum 4 characters");
+        toast("Name should contain minimum 4 characters");
         isValid = false;
         return isValid;
 
       }
       if(name.length>30)
       {
-        alert("Name should not exceed 30 characters");
+        toast("Name should not exceed 30 characters");
         isValid = false;
         return isValid;
       }
       if(!this.validateEmail(email))
       {
-        alert("Enter a valid Email");
+        toast("Enter a valid Email");
         isValid=false;
         return isValid;
       }
-    
-
-
+    //   if(!phoneFormat.test(phone)) {
+    //     toast("Enter a valid phone number!")
+    //     isValid = false;
+    //     return isValid;
+    // }  
       return true;
     }
-   
-      // if(!phoneFormat.test(this.state.phone)){
-      //   alert("Please enter a valid phone number")
-      //  isValid = false;
-      //  return;
-      // }      
-  
 
 
   onChangeName = (e) =>{
@@ -112,6 +123,13 @@ class Register extends React.Component {
     // {
     //   errMsg("Username already exists");
     // }
+  //   const filterEmail = oldArr.filter(x => x === this.state.email);
+  //   if (filterEmail) {
+  //   this.setState({
+  //     error: true,
+  //     errorMessage: "Email already subscribed"
+  //   });
+  // }
 
     let oldData = localStorage.getItem('formData');
     console.log(oldData);
@@ -137,6 +155,8 @@ class Register extends React.Component {
       
       <form onSubmit={this.onSubmit}>
         <div className="form-group">
+        <ToastContainer />
+
           <label>Name</label>
           <input type="text" className="form-control" value={this.state.name} onChange={this.onChangeName} required />
         </div>
@@ -151,10 +171,20 @@ class Register extends React.Component {
         <div className="form-group">
           <label>Password</label>
           <input type="password" className="form-control" value={this.state.password} onChange={this.onChangePassword} required />
+          <button type="button" className="btn btn-secondary" onClick={this.toggleShow}>Show / Hide</button>        
         </div>
         <div className="form-group">
           <label>Confirm Password</label>
-          <input type="password" className="form-control" value={this.state.cpassword} onChange={this.onChangeCpassword} required />
+          <input type={this.state.hidden ? 'password' : 'text'} className="form-control" value={this.state.cpassword} onChange={this.onChangeCpassword} required />
+          {/* <i className="fa fa-eye password-icon"></i> */}
+          {/* <i className="bi bi-eye-slash" 
+                    id="togglePassword"></i> */}
+                     <span className="fa fa-fw fa-eye field-icon toggle-password"></span>
+                     <i className="bi bi-eye"></i>
+
+
+        <button type="button" className="btn btn-secondary" onClick={this.toggleShow}>Show / Hide</button>
+
         </div>
         <button type="submit" className="btn btn-primary btn-block" onClick={this.props.onRegister}>Register</button>
       </form>

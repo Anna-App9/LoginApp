@@ -1,7 +1,6 @@
 import React from 'react';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import Welcome from './welcome';
 import { Link } from 'react-router-dom';
+import './index.css'
 
 class Login extends React.Component {
   constructor(props){
@@ -11,8 +10,13 @@ class Login extends React.Component {
       email:'',
       phone:'',
       password:'',
-      error:''
+      error:'',
+      hidden: true,
     }
+    this.toggleShow = this.toggleShow.bind(this);
+  }
+  toggleShow() {
+    this.setState({ hidden: !this.state.hidden });
   }
 
 
@@ -41,12 +45,12 @@ class Login extends React.Component {
             let user = this.state.name;
             // console.log(user);
             // console.log(arr.password);
-           this.props.history.push('/welcome');
+           this.props.history.push({pathname:'/welcome', user: this.state.name});
           }else{
             this.setState({error:'Please check your email or password'})
             
           }
-        }
+       }
       }
       )
   }
@@ -84,6 +88,8 @@ class Login extends React.Component {
         <div className="form-group">
           <label>Password</label>
           <input type="password" className="form-control" value={this.state.password} onChange={this.onChangePassword} required />
+          <button type="button" className="btn btn-secondary" onClick={this.toggleShow}>Show / Hide</button>
+
         </div>
         <button type="submit" className="btn btn-primary btn-block" onClick={this.props.onLogin}>Login</button>
       </form>
