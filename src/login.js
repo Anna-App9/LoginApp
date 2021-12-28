@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css'
 
 const Login= ()=>{
@@ -39,12 +40,8 @@ const navigate = useNavigate();
     let oldArr = JSON.parse(oldData);
     oldArr.map(arr => 
       {
-        if(name.length > 4 && password.length > 7){
+        if(name.length > 4){
           if (arr.name == name && (arr.password == password)) {
-            
-            // console.log(user);
-            // console.log(arr.password);
-            // console.log(this.props.history);
             navigate('/welcome', { state: name })
           }else{
             setError('Please check your email or password');
@@ -54,8 +51,6 @@ const navigate = useNavigate();
       }
       )
   }
-
-
     
     return (
 
@@ -72,8 +67,7 @@ const navigate = useNavigate();
              <hr />
 
       <form onSubmit={onSubmit}>
-
-        <p className="error">
+        <p className="error" style={{color:"red"}}>
           {error}
         </p>
         <div className="form-group">

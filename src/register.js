@@ -45,6 +45,7 @@ cptoggleShow() {
     const {name, email, phone, password, cpassword} = this.state;
 
   //  let phoneFormat = /^(\+\d{1,3}[- ]?)?\d{10}$/;
+  let phoneFormat= /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
   //  let phoneFormat = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
 
   //  console.log(!mailFormat.test(email));
@@ -86,11 +87,11 @@ cptoggleShow() {
         isValid=false;
         return isValid;
       }
-    //   if(!phoneFormat.test(phone)) {
-    //     toast("Enter a valid phone number!")
-    //     isValid = false;
-    //     return isValid;
-    // }  
+      if(!phoneFormat.test(phone)) {
+        toast("Enter a valid phone number!")
+        isValid = false;
+        return isValid;
+    }  
       return true;
     }
 
