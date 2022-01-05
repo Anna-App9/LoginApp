@@ -13,34 +13,12 @@ export default function Profile() {
     const [cuser, setCuser]=useState([]);
 
 
-
-    // let list = localStorage.getItem('formData');
-    // let data = JSON.parse(list);
-    // var cuser=[];
-    // setName(cuser[0]?.name);
-    // console.log(cuser)
-
-
-
     useEffect(() => {
         getUser();
     },[]
     )
 
-    const deleteUser=()=>{
-        let list =localStorage.getItem('formData')
-        let data = JSON.parse(list);
-        for(var i =0; i<data.length; i++){
-            data = JSON.parse(data[i]);
-            if (data.email == logLocal.email) {
-                data.splice(i, 1);
-            }
-        }
-     data = JSON.stringify(data);
-     localStorage.setItem('formData');
-     console.log('formData');      
-    }
-    
+   
     const getUser=()=>{
         try{
             let list = localStorage.getItem('formData');
@@ -50,6 +28,8 @@ export default function Profile() {
                 console.log("Our user",userData);
                 setCuser(userData);
                 setName(userData[0]?.name);
+                setPhone(userData[0]?.phone);
+                setPassword(userData[0]?.password);
             }
 
         }
@@ -106,12 +86,7 @@ export default function Profile() {
 
                  return(
                      <div>
-                    <h4>Hey , {cuser.name} :</h4>
-                    <ul>
-                    <li>
-                    Your Current Phone No : {cuser.phone}
-                    </li>
-                    </ul>
+                    <p className='display-6'>Hey , {cuser.name} !</p>
                     <form>
                     
                              
@@ -119,7 +94,7 @@ export default function Profile() {
                 {successFound !== null ? <div className="alert alert-success">  {successFound} </div> : null}
                
                    <div  key={index}>
-                       <h4>Do you want to edit your profile details?</h4>
+                       <p className='lead'>Do you wish to edit your profile details?</p>
                        <div className="form-group">
                         <input type="text" placeholder="Enter your display name" className="form-control" value={name} onChange={e => {console.log(e.target.value);setName(e.target.value)}} required />
                     </div>
@@ -137,8 +112,6 @@ export default function Profile() {
                       <button className="btn btn-primary btn-success" onClick={() => editUser(name, phone, password)}> Update User </button>
                     </div>
                 </form> 
-                {/* <button className="btn btn-primary btn-success" onClick={() => deleteUser()}> Delete User </button> */}
-
                 <Link to={'/welcome'} className="nav-link">Back</Link>
                 </div>
                  )

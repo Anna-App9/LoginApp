@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Details } from "./details";
@@ -17,7 +17,6 @@ export default function Welcome() {
   const pageCount = news ? Math.ceil(news.length / pageSize) : 0;
   const [newsDetail, setNewsDetail] = useState(null);
   const [curPage, setcurPage] = useState(1);    //stores cur page
-  const [favourites, setFavourites] = useState([]);
 
   //To load news Api
   useEffect(() => {
@@ -37,14 +36,6 @@ export default function Welcome() {
 
   var logLocal = JSON.parse(localStorage.getItem('loggedUser'));
   console.log("current",logLocal);
-
-
-  // let world = _.filter(news, ['section', 'World']);
-  // let business = _.filter(news, ['section', 'Business']);
-  // let politics = _.filter(news, ['section', 'Politics']);
-  // let health = _.filter(news, ['section', 'Health']);
-  // let science = _.filter(news, ['section', 'Science']);
-
 
   if (pageCount === 1)
     return null;
@@ -89,9 +80,6 @@ export default function Welcome() {
               <div className="navbar-header">
                 <a className="navbar-brand" href="#">News Portal  </a>
               </div>
-              <ul className="nav navbar-nav">
-                <li className="active"><a href="#">Home</a></li>
-              </ul>
               <ul className="nav navbar-nav">
                 <li className="active"><a href="#" onClick={() => pro()}>Profile</a></li>
               </ul>
