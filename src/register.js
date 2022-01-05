@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 import './index.css';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { includes } from 'lodash';
+import Welcome from './welcome';
+
+var logLocal = JSON.parse(localStorage.getItem('loggedUser')); 
 
 
 class Register extends React.Component {
@@ -18,14 +22,18 @@ class Register extends React.Component {
       phone:'',
       password:'',
       cpassword:'',
-      errors : {},
       errMsg : {},
       hidden: true,
       cpHidden :true,
+      added : false,
+      successMsg : {},
+      logActive: false,
+      error:{}
+      
     }
     this.toggleShow = this.toggleShow.bind(this);
     this.cptoggleShow = this.cptoggleShow.bind(this);
-  }  
+  } 
   validateEmail = (email) => {
     return String(email)
       .toLowerCase()
@@ -41,22 +49,16 @@ cptoggleShow() {
 
 }
 
+
+
   formValidation = () => {
     const {name, email, phone, password, cpassword} = this.state;
 
-  //  let phoneFormat = /^(\+\d{1,3}[- ]?)?\d{10}$/;
   let phoneFormat= /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
-  //  let phoneFormat = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
 
-  //  console.log(!mailFormat.test(email));
 
       let isValid= true;
 
-      // {
-      //   toast("Email already exists!")
-      //   isValid = false;
-      //   return isValid;
-      // }
       if (password !== cpassword) {
         toast("Passwords don't match, Please try again");
           isValid = false;
@@ -87,7 +89,7 @@ cptoggleShow() {
         isValid=false;
         return isValid;
       }
-      if(!phoneFormat.test(phone)) {
+      if(phone.length>10 || phone.length<9) {
         toast("Enter a valid phone number!")
         isValid = false;
         return isValid;
@@ -118,35 +120,39 @@ cptoggleShow() {
   onSubmit = (e) =>{
     e.preventDefault();
    if(this.formValidation()){
-
     let ob = {
       name: this.state.name,
       email: this.state.email,
       phone: this.state.phone,
       password: this.state.password,
       cpassword: this.state.cpassword,
+      active: false
     }
-    // if(this.email in localStorage)
-    // {
-    //   errMsg("Username already exists");
-    // }
-  //   const filterEmail = oldArr.filter(x => x === this.state.email);
-  //   if (filterEmail) {
-  //   this.setState({
-  //     error: true,
-  //     errorMessage: "Email already subscribed"
-  //   });
-  // }
 
     let oldData = localStorage.getItem('formData');
     console.log(oldData);
     if(!oldData){
       localStorage.setItem('formData', JSON.stringify([ob]));
-    }else{
+    }
+    else{
+      let dup = true;
       let oldArr = JSON.parse(oldData)
+      oldArr.map(arr => {
+      if(arr.email == this.state.email)
+      { dup = false; 
+      }
+    })
+      if(!dup)
+      {
       oldArr.push(ob)
-      localStorage.setItem("formData", JSON.stringify(oldArr))
-      console.log(oldArr,'Abc')
+        localStorage.setItem("formData", JSON.stringify(oldArr))
+        console.log(oldArr,'Abc')
+      }
+      else{
+        console.log("User Already Exists");
+      }
+    
+    
     }
     
   }
@@ -155,7 +161,12 @@ cptoggleShow() {
 
   render() {
     return (
-      <div>
+      // <div>
+      //   {
+      //     logActive ?
+      //     <Welcome/>
+      //     :
+          <div>
       <li>
       Do you have an account? 
       <Link to={'/login'} className="nav-link"> Login </Link></li>
@@ -186,18 +197,26 @@ cptoggleShow() {
           {/* <i className="fa fa-eye password-icon"></i> */}
           {/* <i className="bi bi-eye-slash" 
                     id="togglePassword"></i> */}
-                     <span className="fa fa-fw fa-eye field-icon toggle-password"></span>
-                     <i className="bi bi-eye"></i>
+                     {/* <span className="fa fa-fw fa-eye field-icon toggle-password"></span>
+                     <i className="bi bi-eye"></i> */}
 
 
         <button type="button" className="btn btn-secondary" onClick={this.cptoggleShow}>Show / Hide</button>
 
+        
+
         </div>
+  
         <button type="submit" className="btn btn-primary btn-block" onClick={this.props.onRegister}>Register</button>
       </form>
+      {/* </div>
+      } */}
+ 
       </div>
+      
     )
   }
 }
+
 
 export default Register;

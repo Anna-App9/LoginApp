@@ -5,9 +5,13 @@ import Login from './login';
 import Register from './register';
 import Welcome from './welcome';
 import { Navigate } from 'react-router-dom';
+import { Details } from './details';
+import Profile  from './profile';
 export default function App () { 
 
+
     return (
+
       <Router>
           <div>
                  
@@ -17,7 +21,8 @@ export default function App () {
                 <Route path='/register' element={<Register/>} />
                 <Route path='/welcome' element={<Welcome/>}/>
                 <Route path="/" element={<Navigate replace to="/login" />} />
-
+                <Route path="/detail" element={<Details/>}/>
+                <Route path="/profile" element={<Profile/>}/>
             </Routes>
 
       
