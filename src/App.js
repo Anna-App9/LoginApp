@@ -7,6 +7,7 @@ import Welcome from './welcome';
 import { Navigate } from 'react-router-dom';
 import { Details } from './details';
 import Profile  from './profile';
+import Manage from './manage';
 export default function App () { 
 
 
@@ -23,6 +24,7 @@ export default function App () {
                 <Route path="/" element={<Navigate replace to="/login" />} />
                 <Route path="/detail" element={<Details/>}/>
                 <Route path="/profile" element={<Profile/>}/>
+                <Route path="/manage" element={<Manage/>}/>
             </Routes>
 
       

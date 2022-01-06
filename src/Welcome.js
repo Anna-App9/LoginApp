@@ -46,6 +46,9 @@ export default function Welcome() {
     navigate("/profile");
     console.log("Welcome to your profile");
   }
+  const man=()=>{
+    navigate("/manage");
+  }
 
   const view = (news) => {
     localStorage.setItem("news", JSON.stringify(news));
@@ -82,6 +85,9 @@ export default function Welcome() {
               </div>
               <ul className="nav navbar-nav">
                 <li className="active"><a href="#" onClick={() => pro()}>Profile</a></li>
+              </ul>
+              <ul className="nav navbar-nav">
+                <li className="active"><a href="#" onClick={() => man()}>Tasks</a></li>
               </ul>
               <ul className="nav navbar-nav navbar-right">
                 <li><a href="#" onClick={() => logout()}><span className="glyphicon glyphicon-log-in"></span> Logout</a></li>

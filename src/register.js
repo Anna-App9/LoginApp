@@ -1,11 +1,10 @@
 import React from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import './index.css';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { includes } from 'lodash';
-import Welcome from './welcome';
 
 var logLocal = JSON.parse(localStorage.getItem('loggedUser')); 
 
@@ -147,6 +146,7 @@ cptoggleShow() {
       oldArr.push(ob)
         localStorage.setItem("formData", JSON.stringify(oldArr))
         console.log(oldArr,'Abc')
+        
       }
       else{
         console.log("User Already Exists");
