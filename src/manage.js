@@ -1,9 +1,9 @@
-import _ from 'lodash';
 import React, {useState} from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Link } from 'react-router-dom';
 import './App.css'
 import {v4} from 'uuid';
+import _ from 'lodash';
 
 
 const item ={
@@ -23,38 +23,53 @@ export default function Manage(){
 
     const [state, setState] = useState({
         "todo":{
-            title : "To-Do",
-            items :[item, item1]
+            title : "ToDo",
+            items :[item, item1],
+            status: "todo"
         },
         "in-progress":{
             title : " In-Progress",
-            items:[]
+            items:[],
+            status: "inprogress"
         },
         "completed":{
             title: "Completed",
-            items:[]
+            items:[],
+            status: "completed"
         }
 
     });
     const addTask = () => {
         setState(prev => {
           return {
-            ...prev,
+            ...prev,                                    
             todo: {
-              title: "Todo",
+              title: "ToDo",
               items: [
                 {
                   id: v4(),
                   name: text
                 },
                 ...prev.todo.items
-              ]
+              ],
+              status :"todo"
             }
+
+        //     prev(Objecy.key.items = [
+        //         {
+        //           id: v4(),
+        //           name: text
+        //         },
+        //         ...prev.todo.items
+        //       ],
           }
         })
     
         setText("")
       }
+
+
+
     const handleDragEnd = ({destination, source})=>{
         console.log("from", source)
         console.log("to", destination)
@@ -65,16 +80,21 @@ export default function Manage(){
            return;
 
        }
+    //      if (destination === source.index && destination.droppableId === source.droppableId){
+    //        return;
+
+    //    }
+
+
     //    if(destination === source.index)
        //create copy of item before moving it to another state
        const itemCopy ={...state[source.droppableId].items[source.index]}
        console.log(itemCopy);
        setState(prev=>{
            prev = {...prev}
-           prev[source.droppableId].items.splice(source.index, 1)
-           prev[destination.droppableId].items.splice(destination.index, 0, itemCopy)
-
-           return prev
+           prev[source.droppableId].items.splice(source.index, 1);
+           prev[destination.droppableId].items.splice(destination.index, 0, itemCopy);
+           return prev;
        })
 
     }
@@ -108,8 +128,11 @@ export default function Manage(){
                                                  {(provided, snapshot)=>{
                                                      return(
                                                          <div
-                                                        //  className={`item $(snapshot.isDragging && "dragging")`}
-                                                         className={`item ${snapshot.isDragging && "dragging"}`}
+
+                                                         className={`item ${snapshot.isDragging && "dragging"} 
+                                                         ${data.status=="todo" ? "toDo": 
+                                                           data.status=="inprogress"? "inPro":
+                                                           data.status=="completed"? "completed" : ""}`}
 
                                                          ref={provided.innerRef}
                                                          {...provided.draggableProps}

@@ -94,3 +94,24 @@ div.content {
 .item.dragging{
   background-color: tomato;
 }
+.jumbotron {
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  background-color: #e9ecef;
+  border-radius: .3rem;
+}
+.toDo{
+  background-color: pink;
+  color : white;
+
+}
+.inPro{
+  background-color: blue;
+  color : white;
+
+}
+.completed{
+  background-color: green;
+  color : white;
+
+}
