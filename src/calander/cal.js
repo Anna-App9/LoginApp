@@ -3,10 +3,13 @@ import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import format from 'date-fns/format';
 import parse from "date-fns/parse";
 import getDay from "date-fns/getDay";
-// import DatePicker from 'react-datepicker';
+import { Button } from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import startOfWeek from "date-fns/startOfWeek";
 import '../App.css';
+import './popup.css';
+import Modal from 'react-bootstrap/Modal'
 
 
 const locales={
@@ -43,25 +46,53 @@ end: new Date(2022, 1, 0)
 
 ]
 console.log(events);
-
 const Cal = () => {
     const [newEvent, setnewEvent] = useState({ title: "" , start: "", end:""});
     const [allEvents, setallEvents] = useState(events);
-
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    
+ 
     function handleAddEvent(){
-
         setallEvents=([...allEvents, newEvent])
-
     }
 
 
     return (
         <div>
        <h1 style={{textAlign:"center"}}>Calendar</h1>
+       <Button variant="primary" onClick={handleShow}>
+        +
+      </Button>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create Event</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, let's create a memorable event now!
+        <form>
+          <div className="mb-3">
+            <label for="eventName" className="col-form-label">Event Name:</label>
+            <input type="text" className="form-control"/>
+          </div>
+          <div className="mb-3">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea className="form-control"></textarea>
+          </div>
+        </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
         <div className='rbc-calendar'>
             <Calendar localizer={localizer} events={allEvents} 
             startAccessor="start" endAccessor="end" style={{height: 500, margin:"50px"}}/> 
-            
         </div>
         </div>
     )
