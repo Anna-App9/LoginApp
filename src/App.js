@@ -8,6 +8,8 @@ import { Navigate } from "react-router-dom";
 import { Details } from "./details";
 import Profile from "./profile";
 import Manage from "./manage";
+import Cal from "./calander/cal";
+
 
 export default function App() {
   return (
@@ -21,6 +23,7 @@ export default function App() {
           <Route path="/detail" element={<Details />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/manage" element={<Manage />} />
+          <Route path="/cal" element={<Cal/>}/>
         </Routes>
       </div>
     </Router>

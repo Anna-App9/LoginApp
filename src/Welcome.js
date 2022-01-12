@@ -49,10 +49,9 @@ export default function Welcome() {
   const man=()=>{
     navigate("/manage");
   }
-  const jira=()=>{
-    navigate("/taskpage");
+  const cal=()=>{
+    navigate("/cal");
   }
-
   const view = (news) => {
     localStorage.setItem("news", JSON.stringify(news));
     navigate("/detail");
@@ -91,11 +90,10 @@ export default function Welcome() {
               </ul>
               <ul className="nav navbar-nav">
                 <li className="active"><a href="#" onClick={() => man()}>Tasks</a></li>
-              </ul>
+              </ul>   
               <ul className="nav navbar-nav">
-                <li className="active"><a href="#" onClick={() => jira()}>Tasks LS</a></li>
+                <li className="active"><a href="#" onClick={() => cal()}>Calendar</a></li>
               </ul>
-
               <ul className="nav navbar-nav navbar-right">
                 <li><a href="#" onClick={() => logout()}><span className="glyphicon glyphicon-log-in"></span> Logout</a></li>
               </ul>
