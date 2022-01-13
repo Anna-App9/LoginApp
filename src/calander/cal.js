@@ -6,6 +6,7 @@ import getDay from "date-fns/getDay";
 import { Button } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import startOfWeek from "date-fns/startOfWeek";
 import '../App.css';
 import './popup.css';
@@ -54,8 +55,8 @@ const Cal = () => {
     const handleShow = () => setShow(true);
     
  
-    function handleAddEvent(){
-        setallEvents=([...allEvents, newEvent])
+    const handleAddEvent=()=>{
+        setallEvents=([...allEvents, newEvent]);
     }
 
 
@@ -72,21 +73,21 @@ const Cal = () => {
         <Modal.Body>Woohoo, let's create a memorable event now!
         <form>
           <div className="mb-3">
-            <label for="eventName" className="col-form-label">Event Name:</label>
-            <input type="text" className="form-control"/>
+            <label for="eventName" className="col-form-label">Event Title:</label>
+            <input type="text" className="form-control" value={newEvent.title} onChange={(e)=>setnewEvent({...newEvent, title:e.target.value})}/>
           </div>
-          <div className="mb-3">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea className="form-control"></textarea>
-          </div>
+
+          <DatePicker placeholderText='Start Date' selected={newEvent.start} onChange={(start)=>setnewEvent({...newEvent, start})}/>
+          <DatePicker placeholderText='End Date' selected={newEvent.end} onChange={(end)=>setnewEvent({...newEvent, end})}/>
+
         </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
+          <Button variant="primary" onClick={handleAddEvent}>
+            Save
           </Button>
         </Modal.Footer>
       </Modal>
