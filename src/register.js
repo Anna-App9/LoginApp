@@ -194,11 +194,6 @@ cptoggleShow() {
         <div className="form-group">
           <label>Confirm Password</label>
           <input type={this.state.cpHidden ? 'password' : 'text'} className="form-control" value={this.state.cpassword} onChange={this.onChangeCpassword} required />
-          {/* <i className="fa fa-eye password-icon"></i> */}
-          {/* <i className="bi bi-eye-slash" 
-                    id="togglePassword"></i> */}
-                     {/* <span className="fa fa-fw fa-eye field-icon toggle-password"></span>
-                     <i className="bi bi-eye"></i> */}
 
 
         <button type="button" className="btn btn-secondary" onClick={this.cptoggleShow}>Show / Hide</button>
@@ -207,7 +202,7 @@ cptoggleShow() {
 
         </div>
   
-        <button type="submit" className="btn btn-primary btn-block" onClick={this.props.onRegister}>Register</button>
+        <button type="submit" className="btn btn-primary btn-block">Register</button>
       </form>
       {/* </div>
       } */}

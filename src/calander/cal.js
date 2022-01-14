@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import format from 'date-fns/format';
 import parse from "date-fns/parse";
@@ -10,13 +10,18 @@ import 'react-datepicker/dist/react-datepicker.css';
 import startOfWeek from "date-fns/startOfWeek";
 import '../App.css';
 import './popup.css';
-import Modal from 'react-bootstrap/Modal'
+import Modal from 'react-bootstrap/Modal';
+import { DragDropContext } from "react-dnd";
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+
 
 
 const locales={
     "en-US": require("date-fns/locale/en-US")
 }
+const LOCAL_STORAGE_KEY="events"
 
+// const DragAndDropCalendar = withDragAndDrop(BigCalendar);
 
 const localizer = dateFnsLocalizer({
     format,
@@ -46,18 +51,46 @@ end: new Date(2022, 1, 0)
     }
 
 ]
-console.log(events);
+// console.log(events.getEvents());
+
+console.log(getEvents(events));
+
+
 const Cal = () => {
+  useEffect(()=>{
+    const retreiveEvent = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if(retreiveEvent)setallEvents(retreiveEvent);
+    },
+    []);
+  
+    useEffect(()=>{
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(events));
+    },
+    [events]);
     const [newEvent, setnewEvent] = useState({ title: "" , start: "", end:""});
-    const [allEvents, setallEvents] = useState(events);
+    var   [allEvents, setallEvents] = useState(events);
+    const [isEdit, setisEdit]=useState(false);
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () =>{ setShow(false);
+      setisEdit(false);}
     const handleShow = () => setShow(true);
-    
- 
-    const handleAddEvent=()=>{
-        setallEvents=([...allEvents, newEvent]);
-    }
+
+    function handleUpdateEvent(){
+
+    };
+    function handleEditEvent(){
+
+      setisEdit(true);
+      setShow(true);
+
+    };
+
+
+    function handleAddEvent(){
+      setisEdit(false);
+      setallEvents([...allEvents, newEvent])
+      console.log(allEvents);
+    };
 
 
     return (
@@ -68,7 +101,7 @@ const Cal = () => {
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Create Event</Modal.Title>
+          <Modal.Title>{ !isEdit? "Create Event" : "Update Event" }</Modal.Title>
         </Modal.Header>
         <Modal.Body>Woohoo, let's create a memorable event now!
         <form>
@@ -76,24 +109,44 @@ const Cal = () => {
             <label for="eventName" className="col-form-label">Event Title:</label>
             <input type="text" className="form-control" value={newEvent.title} onChange={(e)=>setnewEvent({...newEvent, title:e.target.value})}/>
           </div>
-
           <DatePicker placeholderText='Start Date' selected={newEvent.start} onChange={(start)=>setnewEvent({...newEvent, start})}/>
           <DatePicker placeholderText='End Date' selected={newEvent.end} onChange={(end)=>setnewEvent({...newEvent, end})}/>
-
-        </form>
-        </Modal.Body>
+         
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
+          <>
+          {
+            !isEdit?
+          
           <Button variant="primary" onClick={handleAddEvent}>
             Save
           </Button>
+ :  
+          <Button variant="primary" onClick={handleUpdateEvent}>
+            Update
+          </Button>
+}
+          </>
         </Modal.Footer>
-      </Modal>
+        </form>
+        </Modal.Body>
+        </Modal>
+        <Button onClick={handleEditEvent}> Edit</Button>
+    
         <div className='rbc-calendar'>
             <Calendar localizer={localizer} events={allEvents} 
             startAccessor="start" endAccessor="end" style={{height: 500, margin:"50px"}}/> 
+            {/* <DragAndDropCalendar
+        selectable
+        events={events}
+        onEventDrop={this.moveEvent}
+        resizable
+        onEventResize={this.resizeEvent}
+        defaultView={BigCalendar.Views.MONTH}
+        defaultDate={new Date(2015, 3, 12)}
+      /> */}
         </div>
         </div>
     )
