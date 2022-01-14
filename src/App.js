@@ -9,6 +9,7 @@ import { Details } from "./details";
 import Profile from "./profile";
 import Manage from "./manage";
 import Cal from "./calander/cal";
+import DemoApp from "./calander/fullCal";
 
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/manage" element={<Manage />} />
           <Route path="/cal" element={<Cal/>}/>
+          <Route path="/fullCal" element={<DemoApp/>}/>
         </Routes>
       </div>
     </Router>

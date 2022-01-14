@@ -53,7 +53,24 @@ end: new Date(2022, 1, 0)
 ]
 // console.log(events.getEvents());
 
-console.log(getEvents(events));
+console.log(events);
+// function eventClick(allEvents) {
+//   {allEvents.map((event,index)=>{
+//     <div key={index}>
+//   <div>'Event: ' {event.title}</div>
+//   {/* alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+//   alert('View: ' + info.view.type); */}
+// {/* 
+//   // change the border color just for fun
+//   // info.el.style.borderColor = 'red'; */}
+  
+//   </div>
+//   }
+//   )
+//   }
+// }
+
+
 
 
 const Cal = () => {
@@ -91,7 +108,18 @@ const Cal = () => {
       setallEvents([...allEvents, newEvent])
       console.log(allEvents);
     };
-
+    function eventClick(allEvents) {
+      {allEvents.map((event,index)=>{
+        <div key={index}>
+      <div>Event: {event.title}</div>
+      {/* alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+      alert('View: ' + info.view.type); */}
+      </div>
+      }
+      )
+      }
+      console.log(allEvents)
+    }
 
     return (
         <div>
@@ -134,10 +162,20 @@ const Cal = () => {
         </Modal.Body>
         </Modal>
         <Button onClick={handleEditEvent}> Edit</Button>
-    
+        {/* {allEvents.map((event,index)=>{
+             return (
+              <div key={index}>
+
+              <ul>{event.title}</ul>
+              <ul>{event.start}</ul>
+              </div>
+          )
+
+        })} */}
         <div className='rbc-calendar'>
             <Calendar localizer={localizer} events={allEvents} 
-            startAccessor="start" endAccessor="end" style={{height: 500, margin:"50px"}}/> 
+            startAccessor="start" endAccessor="end" style={{height: 500, margin:"50px"}} onClick={eventClick}/> 
+
             {/* <DragAndDropCalendar
         selectable
         events={events}
@@ -147,6 +185,7 @@ const Cal = () => {
         defaultView={BigCalendar.Views.MONTH}
         defaultDate={new Date(2015, 3, 12)}
       /> */}
+
         </div>
         </div>
     )
