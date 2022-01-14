@@ -11,9 +11,6 @@ import startOfWeek from "date-fns/startOfWeek";
 import '../App.css';
 import './popup.css';
 import Modal from 'react-bootstrap/Modal';
-import { DragDropContext } from "react-dnd";
-import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-
 
 
 const locales={

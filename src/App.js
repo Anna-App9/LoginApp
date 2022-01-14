@@ -10,6 +10,7 @@ import Profile from "./profile";
 import Manage from "./manage";
 import Cal from "./calander/cal";
 import DemoApp from "./calander/fullCal";
+import Schedule from "./calander/editCal";
 
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/manage" element={<Manage />} />
           <Route path="/cal" element={<Cal/>}/>
           <Route path="/fullCal" element={<DemoApp/>}/>
+          <Route path="/editCal" element={<Schedule/>}/>
         </Routes>
       </div>
     </Router>

@@ -55,6 +55,9 @@ export default function Welcome() {
   const fullCal=()=>{
     navigate("/fullCal");
   }
+  const editCal=()=>{
+    navigate("/editCal");
+  }
 
   const view = (news) => {
     localStorage.setItem("news", JSON.stringify(news));
@@ -100,6 +103,9 @@ export default function Welcome() {
               </ul>
               <ul className="nav navbar-nav">
                 <li className="active"><a href="#" onClick={() => fullCal()}>Full Calendar</a></li>
+              </ul>
+              <ul className="nav navbar-nav">
+                <li className="active"><a href="#" onClick={() => editCal()}>Edit Calendar</a></li>
               </ul>
               <ul className="nav navbar-nav navbar-right">
                 <li><a href="#" onClick={() => logout()}><span className="glyphicon glyphicon-log-in"></span> Logout</a></li>
