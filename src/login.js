@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import {BsEye, BsFillEyeSlashFill} from 'react-icons/bs';
 import "./index.css";
 
 const Login = () => {
@@ -92,7 +93,7 @@ const Login = () => {
               required
             />
             <button type="button" onClick={toggleShow}>
-              Show / Hide
+            {!hidden? <BsEye/> : <BsFillEyeSlashFill/>}
             </button>
           </div>
           <button type="submit" className="btn btn-primary btn-block">

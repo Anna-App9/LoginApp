@@ -5,6 +5,8 @@ import './index.css';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { includes } from 'lodash';
+import {BsEye, BsFillEyeSlashFill} from 'react-icons/bs';
+
 
 var logLocal = JSON.parse(localStorage.getItem('loggedUser')); 
 
@@ -189,14 +191,16 @@ cptoggleShow() {
         <div className="form-group">
           <label>Password</label>
           <input type={this.state.hidden ? 'password' : 'text'} className="form-control" value={this.state.password} onChange={this.onChangePassword} required />
-          <button type="button" className="btn btn-secondary" onClick={this.toggleShow}>Show / Hide</button>        
+          <button type="button" className="btn btn-secondary" onClick={this.toggleShow}>
+          {!this.state.hidden? <BsEye/> : <BsFillEyeSlashFill/>}
+          </button>        
         </div>
         <div className="form-group">
           <label>Confirm Password</label>
           <input type={this.state.cpHidden ? 'password' : 'text'} className="form-control" value={this.state.cpassword} onChange={this.onChangeCpassword} required />
-
-
-        <button type="button" className="btn btn-secondary" onClick={this.cptoggleShow}>Show / Hide</button>
+        <button type="button" className="btn btn-secondary" onClick={this.cptoggleShow}>
+        {!this.state.cpHidden? <BsEye/> : <BsFillEyeSlashFill/>}
+        </button>
 
         
 
