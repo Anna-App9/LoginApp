@@ -52,9 +52,6 @@ export default function Welcome() {
   const cal=()=>{
     navigate("/cal");
   }
-  const fullCal=()=>{
-    navigate("/fullCal");
-  }
   const editCal=()=>{
     navigate("/editCal");
   }
@@ -100,9 +97,6 @@ export default function Welcome() {
               </ul>   
               <ul className="nav navbar-nav">
                 <li className="active"><a href="#" onClick={() => cal()}>Calendar</a></li>
-              </ul>
-              <ul className="nav navbar-nav">
-                <li className="active"><a href="#" onClick={() => fullCal()}>Full Calendar</a></li>
               </ul>
               <ul className="nav navbar-nav">
                 <li className="active"><a href="#" onClick={() => editCal()}>Edit Calendar</a></li>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -9,45 +9,117 @@ import { Button } from "react-bootstrap";
 import DatePicker from 'react-datepicker';
 
 
+const LOCAL_STORAGE_KEY="calendarEvents";
+var calEvents=[{
+  title:"Big Meet",
+  allday:"true",
+  start: new Date(2022, 1, 0),
+  end: new Date(2022, 1, 0)
+},
+{
+title:"RO Catchup",
+allday:"true",
+start: new Date(2022, 1, 0),
+end: new Date(2022, 1, 0)
+},
+{
+  title:"Holidays",
+  allday:"true",
+  start: new Date(2022, 1, 14),
+  end: new Date(2022, 1, 16)
+  }
 
+]
+
+let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
 const Calan = () => {
   const [weekends, setWeekends] = useState(true);
   const [events, setEvents] = useState([]);
   const [isEdit, setisEdit] = useState(false);
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState();
+  const [start, setStart] = useState();
+  const [end, setEnd] =  useState();
+  const [errorFound, setErrorFound] = useState(null)
+  const [successFound, setSuccessFound] = useState(null)
 
   const weekendsVisible = () => {
     setWeekends(!weekends);
   };
+
   const handleClose = () =>{ setShow(false);
-    setisEdit(false);}
-  const handleShow = () => setShow(true);
-  const renderEventContent = (eventInfo) => {
-    return (
-      <>
-        <b>{eventInfo.timeText}</b>
-        <i>{eventInfo.event.title}</i>
-      </>
-    );
-  };
+    setisEdit(false);
+  }
 
-  function handleUpdateEvent(){
+  const handleAdd =(e)=>{
+    let ob={
+    title:events.title,
+    start:events.start,
+    end:events.end
+  }
+    let eventArr = localStorage.getItem('calendarEvents');
+    let calEvents = JSON.parse(eventArr);
+    if(events.title){
+    calEvents.push(ob);
+    localStorage.setItem('calendarEvents', JSON.stringify(calEvents));
+    setEvents(calEvents);
+    console.log("New Ones", calEvents);
+    handleClose();
+  }
+    
+  }
 
-  };
-  function handleEditEvent(){
+  const handleUpdateEvent=(Title, Start, End)=>{
+    setErrorFound(null);
+    setSuccessFound(null);
 
-    setisEdit(true);
-    setShow(true);
+      if (!Title) setErrorFound("Title Cannot be Empty")
+     else if (!Start) setErrorFound("Start can not be empty")
+      else if (!End) setErrorFound("End cannot be empty")
+       else {
 
-  };
+         try {
+            
+              let eventList = localStorage.getItem('calendarEvents');
+           if (eventList !== null) {
 
+                  let data = JSON.parse(eventList) 
+
+                 var objIndex = data.findIndex((x => x.title == eventList.title));
+                   data[objIndex].title = Title;
+                   data[objIndex].start = Start;
+                  data[objIndex].end = End;
+
+                  localStorage.setItem("calendarEvents", JSON.stringify(data)) ;
+                  
+                setSuccessFound("User Updated!");
+                  
+                  if(setSuccessFound){
+
+                  setShow(false);
+            }
+                  
+              }
+
+           } catch (e) {
+             console.log(e) //for handling errors
+         }
+      }
+    }
+
+    const addEvent =()=>{
+      setisEdit(false);
+      setShow(true);
+
+    }; 
+ 
   const handleDateSelect = (selectInfo) => {
-    let title = prompt("Please enter a new title for your event");
-    let calendarApi = selectInfo.view.calendar;
-
+    // let title = prompt("Please enter a new title for your event");
+    let calendarApi = selectInfo.view.calendar;    
+    setisEdit(false);
+    setShow(true);
+  
     calendarApi.unselect(); // clear date selection
-
     if (title) {
       calendarApi.addEvent({
         id: createEventId(),
@@ -57,29 +129,39 @@ const Calan = () => {
         allDay: selectInfo.allDay,
       });
     }
+    setEvents(...events);
   };
 
-  const handleEventClick = (eventClickInfo) => {
-    var eventObj = eventClickInfo.title;
+  const handleEventClick = (eventClickInfo) =>{
+    var eventObj = eventClickInfo.event.title;
+    events.title=eventClickInfo.event.title;
+    console.log(eventObj);
     console.log(eventClickInfo);
+    events.end = eventClickInfo.event.end;
+    events.start = eventClickInfo.event.start;
+    console.log(eventClickInfo.event.start, "Start Time");
+    console.log(eventClickInfo.event.end, "End Time");
     setShow(true);
     setisEdit(true);
-    alert("Event: " + eventClickInfo.event.title);
-    alert(
-      "Coordinates: " +
-        eventClickInfo.jsEvent.pageX +
-        "," +
-        eventClickInfo.jsEvent.pageY
-    );
-    alert("View: " + eventClickInfo.view.type);
-    events.title = eventClickInfo.event.title;
+   
     console.log(eventClickInfo.event.title);
   };
 
-  console.log(events);
+// useEffect(()=>{
+  // const retreiveEvent = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+  // if(retreiveEvent)setEvents(retreiveEvent);
+  // },
+  // []);
+
+  useEffect(()=>{
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(calEvents));
+    console.log(calEvents, "CalendEvents");
+  },
+  [calEvents]);
 
   return (
     <div className="demo-app-main">
+      <Button className="btn-primary" onClick={addEvent}>Add Event</Button>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         headerToolbar={{
@@ -95,12 +177,13 @@ const Calan = () => {
         weekends={weekendsVisible}
         initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
         select={handleDateSelect}
-        eventContent={renderEventContent} // custom render function
+     // eventContent={renderEventContent}  custom render function
         eventClick={handleEventClick}
-        events={[
-          { title: "Riya Birthday", date: "2022-01-01" },
-          { title: "event 2", date: "2022-01-06" },
-        ]}
+        // events={[
+        //   { title: "Birthday", start: '2022-01-01', end: '2022-01-02'},
+        //   { title: "RO Meeting", date: "2022-01-06" },
+        // ]}
+        events={calEvents}
         // eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
         /* you can update a remote database when these fire:
             eventAdd={function(){}}
@@ -108,6 +191,7 @@ const Calan = () => {
             eventRemove={function(){}}
             */
       />
+   
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{!isEdit ? "Create Event" : "Update Event"}</Modal.Title>
@@ -126,17 +210,19 @@ const Calan = () => {
                 onChange={(e) =>
                   setEvents({ ...events, title: e.target.value })
                 }
+              
               />
             </div>
             <DatePicker
               placeholderText="Start Date"
               selected={events.start}
-              onChange={(start) => setEvents({ ...events, start })}
+              onChange={(start) => setEvents({...events, start })}
+           
             />
             <DatePicker
               placeholderText="End Date"
               selected={events.end}
-              onChange={(end) => setEvents({ ...events, end })}
+              onChange={(end) => setEvents({...events, end })}
             />
 
             <Modal.Footer>
@@ -145,11 +231,11 @@ const Calan = () => {
               </Button>
               <>
                 {!isEdit ? (
-                  <Button variant="primary">
+                  <Button variant="primary" onClick={()=>handleAdd(title, start, end)}>
                     Save
                   </Button>
                 ) : (
-                  <Button variant="primary" onClick={handleUpdateEvent}>
+                  <Button variant="primary" onClick={() => handleUpdateEvent(events.title, events.start, events.end,)}>
                     Update
                   </Button>
                 )}
@@ -158,6 +244,7 @@ const Calan = () => {
           </form>
         </Modal.Body>
       </Modal>
+   
     </div>
   );
 };
