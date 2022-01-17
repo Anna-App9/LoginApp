@@ -3,14 +3,14 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./login";
 import Register from "./register";
-import Welcome from "./welcome";
+import Welcome from "./Welcome";
 import { Navigate } from "react-router-dom";
 import { Details } from "./details";
 import Profile from "./profile";
 import Manage from "./manage";
 import Cal from "./calander/cal";
 import DemoApp from "./calander/fullCal";
-import Schedule from "./calander/editCal";
+import Calan from "./calander/editCal";
 
 
 export default function App() {
@@ -27,7 +27,7 @@ export default function App() {
           <Route path="/manage" element={<Manage />} />
           <Route path="/cal" element={<Cal/>}/>
           <Route path="/fullCal" element={<DemoApp/>}/>
-          <Route path="/editCal" element={<Schedule/>}/>
+          <Route path="/editCal" element={<Calan/>}/>
         </Routes>
       </div>
     </Router>
