@@ -96,7 +96,7 @@ export default function Welcome() {
                 <li className="active"><a href="#" onClick={() => man()}>Tasks</a></li>
               </ul>   
               <ul className="nav navbar-nav">
-                <li className="active"><a href="#" onClick={() => cal()}>Calendar</a></li>
+                <li className="active"><a href="#" onClick={() => cal()}>React Calendar</a></li>
               </ul>
               <ul className="nav navbar-nav">
                 <li className="active"><a href="#" onClick={() => editCal()}>Edit Calendar</a></li>

@@ -129,35 +129,20 @@ cptoggleShow() {
       cpassword: this.state.cpassword,
       active: false
     }
-
     let oldData = localStorage.getItem('formData');
     console.log(oldData);
     if(!oldData){
       localStorage.setItem('formData', JSON.stringify([ob]));
     }
     else{
-      let dup = true;
       let oldArr = JSON.parse(oldData)
       oldArr.map(arr => {
-      if(arr.email == this.state.email)
-      { dup = false; 
-      }
-    })
-      if(!dup)
-      {
       oldArr.push(ob)
-        localStorage.setItem("formData", JSON.stringify(oldArr))
-        console.log(oldArr,'Abc')
-        
-      }
-      else{
-        console.log("User Already Exists");
-      }
-    
-    
-    }
-    
+        localStorage.setItem("formData", JSON.stringify(oldArr));
+        console.log(oldArr,'Abc');
+  })
   }
+   }
   }
   
 
