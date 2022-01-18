@@ -80,7 +80,7 @@ const Calan = () => {
       handleClose();
     }
   };
-  
+
   //------------------Update function------------------
   const handleUpdateEvent = (Title, Start, End) => {
     setErrorFound(null);
